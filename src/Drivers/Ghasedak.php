@@ -13,12 +13,13 @@ class Ghasedak extends Driver
     {
         $result = null;
         $this->setUser($userId);
+        dd(call_user_func_array(function($args) { return $args; },$params));
         $api = new GhasedakApi($this->getInformation()['api_key'],$this->getInformation()['api_url']);
         (object) $result = $api->Verify(
             $this->user->mobile,
             1,
-            "registration",
-            'test'
+            $options['ghasedak_template_name'],
+            call_user_func_array(function($args) { foreach ($args as $arg){ return $arg; } },$params)
         );
         dd($result);
         return $result;
