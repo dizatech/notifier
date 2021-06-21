@@ -38,7 +38,7 @@ return [
         'ghasedak' => [
             'constructor' => [
                 'api_key' => '',
-                'api_url' => '',
+                'api_url' => 'http://api.ghasedak.me/v2/',
                 'line_number' => ''
             ],
             'options' => [
