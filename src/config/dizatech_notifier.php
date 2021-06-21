@@ -15,6 +15,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | User Model
+    |--------------------------------------------------------------------------
+    |
+    | This value determines which of the models used for users.
+    |
+    | You can change this if your user model is in the diffrent location
+    |
+    */
+    'user_model' => \App\Models\User::class,
+
+    /*
+    |--------------------------------------------------------------------------
     | Drivers Information
     |--------------------------------------------------------------------------
     |

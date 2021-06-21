@@ -10,9 +10,9 @@ class Ghasedak extends Driver
     public function send($userId, $templateId, $params = [],  $options = [])
     {
         $result = null;
-        dd($this->getInformation());
-        $api = new GhasedakApi();
-        (object) $message_result = $api->Verify(
+        $this->setUser();
+        $api = new GhasedakApi($this->getInformation()['api_key'],$this->getInformation()['api_url']);
+        (object) $result = $api->Verify(
             $this->user->mobile,
             1,
             "registration",
@@ -21,5 +21,10 @@ class Ghasedak extends Driver
         $logText = 'رمزعبور کاربر :' . '****';
         $this->insertLog('sms', $logText, $message_result->result->code);
         return $result;
+    }
+
+    protected function setUser()
+    {
+        dd($this->getUserModel());
     }
 }

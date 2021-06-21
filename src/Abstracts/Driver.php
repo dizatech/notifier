@@ -19,4 +19,9 @@ abstract class Driver implements DriverInterface
     public function getInformation() {
         return config('dizatech_notifier.information')[$this->driver]['constructor'];
     }
+
+    public function getUserModel()
+    {
+        return config('dizatech_notifier.user_model');
+    }
 }
