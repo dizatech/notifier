@@ -22,6 +22,7 @@ abstract class Driver implements DriverInterface
 
     public function getUserModel()
     {
-        return config('dizatech_notifier.user_model');
+        $class = config('dizatech_notifier.user_model');
+        return new $class;
     }
 }
