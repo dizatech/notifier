@@ -2,6 +2,8 @@
 
 namespace Dizatech\Notifier;
 
+use Dizatech\Notifier\Core\SMSNotifier;
+use Dizatech\Notifier\Facades\Notifier;
 use Illuminate\Support\ServiceProvider;
 
 class NotifierServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class NotifierServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Notifier::shouldProxyTo(SMSNotifier::class);
     }
 
     /**

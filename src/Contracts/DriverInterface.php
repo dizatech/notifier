@@ -1,6 +1,6 @@
 <?php
 
-namespace Dizatech\Transaction\Contracts;
+namespace Dizatech\Notifier\Contracts;
 
 interface DriverInterface
 {

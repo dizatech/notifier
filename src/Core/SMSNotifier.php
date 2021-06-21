@@ -61,7 +61,7 @@ class SMSNotifier
         return $this;
     }
 
-    public function detail($options = [])
+    public function options($options = [])
     {
         $this->options = $options;
         return $this;
