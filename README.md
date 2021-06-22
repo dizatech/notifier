@@ -95,4 +95,5 @@ php artisan migrate
 
 - PHP v7.0 or above
 - Laravel v7.0 or above
+- ghasedak/php package [packagist link](https://packagist.org/packages/ghasedak/php)
 
