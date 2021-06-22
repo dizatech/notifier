@@ -16,16 +16,18 @@ class Ghasedak extends Driver
         $this->set_sms_template();
         switch ($this->options['method']){
             case 'opt';
-                $result = $this->send_opt_sms();
+                $message_result = $this->send_opt_sms();
                 break;
             case 'simple':
                 // send simple sms function
                 break;
         }
-        $this->save_sms_log('', '', '');
-        dd($result);
-        // return json result
-        return $result;
+        $this->save_sms_log($this->template, $this->user->mobile, $message_result->result->code);
+        // return sms result
+        return (object) [
+            'status' => $message_result->result->code,
+            'message' => $message_result->result->message
+        ];
     }
 
     protected function send_opt_sms()
@@ -34,7 +36,7 @@ class Ghasedak extends Driver
         if (!array_key_exists('ghasedak_template_name', $this->options)){
             throw new \ErrorException("you must have 'ghasedak_template_name' key in your options");
         }
-        if (!array_key_exists('param11', $this->params)){
+        if (array_key_exists('param11', $this->params)){
             throw new \ErrorException("only 10 params accepted in params (remove param11 to solve this error)");
         }
         $api = new GhasedakApi($this->getInformation()['api_key'],$this->getInformation()['api_url']);

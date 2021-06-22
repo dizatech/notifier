@@ -8,7 +8,7 @@ use Dizatech\Notifier\Models\NotifierSmsTemplate;
 trait SMSTrait
 {
     protected $userId, $templateId, $params, $options;
-    protected $user, $template, $status, $message;
+    protected $user, $template;
 
     protected function setVariables($userId,$templateId,$params,$options)
     {
@@ -71,10 +71,16 @@ trait SMSTrait
     protected function set_sms_template()
     {
         $template = NotifierSmsTemplate::query()->where('id', '=', $this->templateId)->first();
-        dd(1);
-        return [
-            'message' => $this->message,
-            'status' => $this->status
-        ];
+        if (is_null($template) || empty($template)){
+            throw new \ErrorException("the templateId ({$this->templateId}) not found ! did you define this template in a seeder ? did you try php artisan db:seed ?");
+        }
+        $template_text = $template->template_text;
+        $template_text = str_replace('[param1]', $this->params['param1'], $template_text);
+        for ($param_num = 1; $param_num <= 10; $param_num ++){
+            if (array_key_exists("param$param_num", $this->params)){
+                $template_text = str_replace("[param$param_num]", $this->params["param$param_num"], $template_text);
+            }
+        }
+        $this->template = $template_text;
     }
 }
