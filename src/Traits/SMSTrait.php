@@ -49,6 +49,7 @@ trait SMSTrait
         if (!is_null($this->userId) && $this->userId != 0){
             $this->user = $this->getUserModel()->findOrFail($this->userId);
         }else{
+            $this->user = (object) [];
             $this->user->mobile = $this->options['receiver'];
         }
     }
