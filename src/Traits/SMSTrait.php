@@ -75,8 +75,12 @@ trait SMSTrait
             throw new \ErrorException("the templateId ({$this->templateId}) not found ! did you define this template in a seeder ? did you try php artisan db:seed ?");
         }
         $template_text = $template->template_text;
-        $template_text = str_replace('[param1]', $this->params['param1'], $template_text);
-        for ($param_num = 1; $param_num <= 10; $param_num ++){
+        if (array_key_exists('hasPassword', $this->options) && $this->options['hasPassword'] == 'yes'){
+            $template_text = str_replace('[param1]', '********', $template_text);
+        }else{
+            $template_text = str_replace('[param1]', $this->params['param1'], $template_text);
+        }
+        for ($param_num = 2; $param_num <= 10; $param_num ++){
             if (array_key_exists("param$param_num", $this->params)){
                 $template_text = str_replace("[param$param_num]", $this->params["param$param_num"], $template_text);
             }
