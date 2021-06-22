@@ -11,7 +11,7 @@ return [
     | Available Drivers : auto (Switch on failure) , ghasedak
     |
     */
-    'default' => 'auto',
+    'default' => 'ghasedak',
 
     /*
     |--------------------------------------------------------------------------
