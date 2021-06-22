@@ -2,31 +2,59 @@
 
 namespace Dizatech\Notifier\Drivers;
 
+use Dizatech\Notifier\Traits\SMSTrait;
 use Ghasedak\GhasedakApi;
 use Dizatech\Notifier\Abstracts\Driver;
 
 class Ghasedak extends Driver
 {
-    protected $user;
+    use SMSTrait;
 
     public function send($userId, $templateId, $params = [],  $options = [])
     {
-        $result = null;
-        $this->setUser($userId);
-        dd(call_user_func_array(function($args) { return $args; },$params));
+        $this->setVariables($userId,$templateId,$params,$options);
+        $this->set_sms_template();
+        switch ($this->options['method']){
+            case 'opt';
+                $result = $this->send_opt_sms();
+                break;
+            case 'simple':
+                // send simple sms function
+                break;
+        }
+        $this->save_sms_log('', '', '');
+        dd($result);
+        // return json result
+        return $result;
+    }
+
+    protected function send_opt_sms()
+    {
+        $this->setUser();
+        if (!array_key_exists('ghasedak_template_name', $this->options)){
+            throw new \ErrorException("you must have 'ghasedak_template_name' key in your options");
+        }
+        if (!array_key_exists('param11', $this->params)){
+            throw new \ErrorException("only 10 params accepted in params (remove param11 to solve this error)");
+        }
         $api = new GhasedakApi($this->getInformation()['api_key'],$this->getInformation()['api_url']);
         (object) $result = $api->Verify(
             $this->user->mobile,
             1,
-            $options['ghasedak_template_name'],
-            call_user_func_array(function($args) { foreach ($args as $arg){ return $arg; } },$params)
+            $this->options['ghasedak_template_name'],
+            $this->params['param1'] ?? '',
+            $this->params['param2'] ?? '',
+            $this->params['param3'] ?? '',
+            $this->params['param4'] ?? '',
+            $this->params['param5'] ?? '',
+            $this->params['param6'] ?? '',
+            $this->params['param7'] ?? '',
+            $this->params['param8'] ?? '',
+            $this->params['param9'] ?? '',
+            $this->params['param10'] ?? ''
         );
-        dd($result);
         return $result;
     }
 
-    protected function setUser($userId)
-    {
-        $this->user = $this->getUserModel()->findOrFail($userId);
-    }
+
 }
