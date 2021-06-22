@@ -53,7 +53,7 @@ trait SMSTrait
         }
     }
 
-    public function save_sms_log($sms_text,$reciver,$status)
+    public function save_sms_log($method,$sms_text,$reciver,$status)
     {
         NotifierSmsLog::query()->create([
             'sms_template_id' => $this->templateId,
@@ -61,6 +61,7 @@ trait SMSTrait
             'driver' => $this->driver,
             'sms_text' => $sms_text,
             'receiver' => $reciver,
+            'method' => $method,
             'status' => $status
         ]);
         return [

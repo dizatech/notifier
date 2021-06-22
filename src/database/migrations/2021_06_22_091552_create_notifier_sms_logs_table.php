@@ -20,6 +20,7 @@ class CreateNotifierSmsLogsTable extends Migration
             $table->string('driver');
             $table->text('sms_text');
             $table->string('receiver')->nullable();
+            $table->string('method')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

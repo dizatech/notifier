@@ -15,14 +15,16 @@ class Ghasedak extends Driver
         $this->setVariables($userId,$templateId,$params,$options);
         $this->set_sms_template();
         switch ($this->options['method']){
-            case 'opt';
-                $message_result = $this->send_opt_sms();
+            case 'otp';
+                $message_result = $this->send_otp_sms();
                 break;
             case 'simple':
                 // send simple sms function
                 break;
+            default:
+                throw new \ErrorException("sms 'method' not found.");
         }
-        $this->save_sms_log($this->template, $this->user->mobile, $message_result->result->code);
+        $this->save_sms_log($this->options['method'],$this->template, $this->user->mobile, $message_result->result->code);
         // return sms result
         return (object) [
             'status' => $message_result->result->code,
@@ -30,7 +32,7 @@ class Ghasedak extends Driver
         ];
     }
 
-    protected function send_opt_sms()
+    protected function send_otp_sms()
     {
         $this->setUser();
         if (!array_key_exists('ghasedak_template_name', $this->options)){
